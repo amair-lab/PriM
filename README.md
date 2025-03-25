@@ -11,7 +11,7 @@
 <h3>PriM: Principle-Inspired Material Discovery through Multi-Agent Collaboration</h3>
 
 
-[Zheyuan Lai](https://fangggf.github.io/)*†, [Yingming Pu](https://kunjun-li.github.io/)‡† (Corresponding author)
+[Zheyuan Lai](https://zheyuanlai.github.io/)*† and [Yingming Pu](https://dandelionym.github.io/)‡† (Corresponding author)
  
 *: National University of Singapore
 
