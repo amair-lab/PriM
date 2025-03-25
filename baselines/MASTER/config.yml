@@ -1,0 +1,17 @@
+openai_api_key: OpenAI_API_KEY
+openai_base_url: https://35.aigcbest.top/v1
+
+parameter_space:
+  angle: [0.123160654, 1.009814211]
+  curl: [0.628318531, 8.078381109]
+  fiber_radius: [20, 60]
+  height: [43.32551229, 954.9296586]
+  helix_radius: [20, 90]
+  n_turns: [3, 10]
+  pitch: [60, 200]
+  total_fiber_length: [303.7757835, 1127.781297]
+  total_length: [300, 650]
+
+mcts:
+  uct_constant: 1.414
+  iterations: 100
