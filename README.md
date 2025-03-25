@@ -40,6 +40,7 @@ We set the research goal and constraints as the following:
 - **Research Goal (task description)**: Find the structural parameters corresponding to the strongest chirality (g-factor characteristics) in the nanohelix material system.
 - **Research Constraints**: Explicitly show the underlying physicochemical principles regarding the structure and property relationships.
 
+<br>
 <div align="center">
  <img src="assets/case_study.png" alt="Scalability" style="display:block; margin-left:auto; margin-right:auto;"
    <br>
@@ -47,11 +48,13 @@ We set the research goal and constraints as the following:
       Step-by-Step Hypothesis Evolution in PriM.
   </em>
 </div>
+<br>
 
 This figure illustrates the iterative refinement process where hypotheses and experimental conditions are systematically adjusted to optimize the nano helix's g-factor. It details 12 iterations, showing how changes to parameters—including helix radius, pitch, number of turns, fiber radius, and curl—are driven by underlying physicochemical principles such as structural stability, molecular alignment, and optical anisotropy. Each step records the principles behind the hypothesis, the changes of parameter values, and the achieved g-factor, highlighting key improvements and showcases PriM's ability to balance exploration and exploitation.
 
 ## 📁 Code Structure
 ```plaintext
+/PriM
 ├── baselines
 │   ├── AccelMat
 │   │   ├── accelmat_chat.json
@@ -125,6 +128,7 @@ cd PriM
 2. Install required dependencies:
 ```bash
 conda create -n PriM python=3.9
+conda activate PriM
 pip install -r requirements.txt
 ```
 
