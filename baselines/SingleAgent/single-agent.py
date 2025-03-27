@@ -8,7 +8,7 @@ from typing import Dict, Any
 from datetime import datetime
 
 import os, sys
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../')))
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../')))
 
 from src.utils.logger import setup_logger
 from src.utils.exploration_rate import average_exploration_distance
@@ -140,11 +140,17 @@ def initialize_agents(config: Dict[str, Any]) -> Dict[str, Any]:
 
 def run_autonomous_workflow(agents: Dict[str, Any], note_taker: NoteTaker, history_manager: ChattingHistoryManager):
     param_history = []
+    experiments_data = []
     while True:
         analysis = history_manager.analyze_history()
         next_agent_name = analysis.get("next_agent")
         if not next_agent_name:
-            print(f"Exploration rate: {average_exploration_distance(param_history)}")
+            dist = average_exploration_distance(param_history)
+            print(f"Exploration rate: {dist}")
+
+            with open("single_agent_experiments.json", "w") as f:
+                json.dump(experiments_data, f, indent=2)
+            print("[INFO] Saved results to single_agent_experiments.json")
             break
 
         agent = agents.get(next_agent_name)
@@ -156,9 +162,21 @@ def run_autonomous_workflow(agents: Dict[str, Any], note_taker: NoteTaker, histo
         if next_agent_name == "experiment":
             agent.initialize("Find the structural parameters corresponding to the strongest chirality (g-factor characteristics) in the nanohelix material system.")
             suggested_value = agents['optimization'].optimize_experiment(agent.getVariable())
-            param_history += agent.param_history
-            print(max(agent.get_gfactors()))
+            param_history.extend(agent.param_history)
+
+            g_factors = agent.get_gfactors()
+            best_g = max(g_factors) if g_factors else None
+            print(best_g)
             history_manager.record_message("experiment", "System", "Experiment run completed")
+
+            experiment_record = {
+                "ParamHistoryNow": agent.param_history[:],  # the param combos tested this time
+                "GFactorsNow": g_factors,
+                "BestGFactor": best_g,
+                "AvgExplorationRate": average_exploration_distance(param_history),
+            }
+            experiments_data.append(experiment_record)
+
 
 
 @click.command()

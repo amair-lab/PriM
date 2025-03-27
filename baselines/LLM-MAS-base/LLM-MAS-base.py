@@ -7,7 +7,7 @@ from typing import Dict, Any
 from datetime import datetime
 
 import os, sys
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../')))
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../')))
 
 from src.utils.logger import setup_logger
 from src.utils.exploration_rate import average_exploration_distance
@@ -79,8 +79,7 @@ class Planner:
 
         try:
             next_agent = self.query_llm()
-            if next_agent not in ["user_proxy", "literature", "hypothesis", "experiment", "analysis", "optimization",
-                                  "None"]:
+            if next_agent not in ["user_proxy", "literature", "hypothesis", "experiment", "analysis", "optimization", "None"]:
                 logger.error(f"Invalid agent suggested by LLM: {next_agent}")
                 return {"next_agent": None}
             return {"next_agent": next_agent if next_agent != "None" else None}
@@ -233,6 +232,9 @@ def run_autonomous_workflow(agents: Dict[str, Any], note_taker: NoteTaker, histo
     g_factors = []
     param_space = {}
     param_history = []
+
+    experiments_data = []
+
     while True:
         analysis = history_manager.analyze_history()
         next_agent_name = analysis.get("next_agent")
@@ -241,6 +243,11 @@ def run_autonomous_workflow(agents: Dict[str, Any], note_taker: NoteTaker, histo
             print(f"g-factor results over iterations: {g_factors}")
             print(f"Optimal parameter space discovered: {param_space}")
             logger.info("Workflow complete.")
+
+            with open("llm_mas_base_experiments.json", "w") as f:
+                json.dump(experiments_data, f, indent=2)
+            print("[INFO] Saved results to llm_mas_base_experiments.json")
+            
             break
 
         agent = agents.get(next_agent_name)
@@ -292,11 +299,29 @@ def run_autonomous_workflow(agents: Dict[str, Any], note_taker: NoteTaker, histo
                 note_taker.get_notes().get("literature_insights"),
                 note_taker.get_notes().get("hypothesis")
             )
-            g_factors.append(max(note_taker.get_notes().get("g-factor Change Record")))
+            
+            current_g_factors = note_taker.get_notes().get("g-factor Change Record") or []
+            if current_g_factors:
+                best_g_for_this_round = max(current_g_factors)
+                g_factors.append(best_g_for_this_round)
+
             note_taker.record("Analysis result", agent.getAnalysisResults())
             note_taker.record("Research Experiment Report", report)
             history_manager.record_message(next_agent_name, "System", "Analysis completed")
             history_manager.record_message(next_agent_name, "System", f"Research Experiment Report: {report}")
+
+            avg_dist = average_exploration_distance(param_history)
+
+            # 2) Gather all info into one dict
+            experiment_record = {
+                "Hypothesis": note_taker.get_notes().get("hypothesis"),
+                "ParamHistorySoFar": param_history[:],
+                "LatestGFactors": current_g_factors,
+                "BestGFactorThisAnalysis": best_g_for_this_round if current_g_factors else None,
+                "AverageExplorationDistance": avg_dist,
+                "ResearchReport": report
+            }
+            experiments_data.append(experiment_record)
 
 
 @click.command()

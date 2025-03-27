@@ -45,7 +45,7 @@ We set the research goal and constraints as the following:
  <img src="assets/case_study.png" alt="Scalability" style="display:block; margin-left:auto; margin-right:auto;"
    <br>
   <em>
-      Step-by-Step Hypothesis Evolution in PriM.
+      PriM applied to nano helix material discovery, demonstrating iterative agent collaboration and significant property improvements.
   </em>
 </div>
 <br>

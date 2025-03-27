@@ -1,9 +1,8 @@
-import sys, os, math
+import sys, os, math, json, yaml
 from itertools import combinations
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
 
-import yaml
 from mcts.node import MCTSNode
 from mcts.search import MCTSHypothesisSearch
 from agents.hypothesis_agent import HypothesisAgent
@@ -69,13 +68,28 @@ def main():
     print(f"Params: {best_node.params}")
     print(f"Param history: {mcts.param_history}")
     print(f"g-factor history: {mcts.g_history}")
-    print(f"Average exploration distance: {average_exploration_distance(mcts.param_history)}")
+    exploration_dist = average_exploration_distance(mcts.param_history)
+    print(f"Average exploration distance: {exploration_dist}")
 
     g_factor = experiment_agent.run_with_params(best_node.params)
     if g_factor is not None:
         print(f"g-factor (from virtual_lab): {g_factor}")
     else:
         print("Experiment failed to return g-factor.")
+
+    results_dict = {
+        "BestNodeParams": best_node.params,
+        "ParamHistory": mcts.param_history,
+        "GFactorHistory": mcts.g_history,
+        "AverageExplorationDistance": exploration_dist,
+        "FinalGFactor": g_factor
+    }
+
+    output_path = os.path.join(os.path.dirname(__file__), "master_experiments.json")
+    with open(output_path, 'w') as f:
+        json.dump(results_dict, f, indent=2)
+
+    print(f"\n[INFO] Results saved to {output_path}")
 
 if __name__ == "__main__":
     main()

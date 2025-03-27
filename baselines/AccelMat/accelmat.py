@@ -398,6 +398,7 @@ def process_feedback_extract_final_answer(feedback):
     return processed_feedback, final_answer, suggestions_with_no
 
 exp_agent = ExperimentAgent()
+experiments_data = []
 chat_history = []
 feedback_history = []
 initial_feedback = None
@@ -420,6 +421,13 @@ run_mcts(exp_agent, iterations=100)
 avg_distance = compute_average_exploration_distance(exp_agent.param_history)
 print("Average Exploration Distance:", avg_distance)
 print("Experiment Result:", max(exp_agent.g_factor))
+experiments_data.append({
+    "Hypothesis": generated_hypotheses,
+    "ParameterHistory": exp_agent.param_history[:],
+    "GFactorHistory": exp_agent.g_factor[:],
+    "BestGFactorSoFar": max(exp_agent.g_factor),
+    "AverageExplorationDistance": avg_distance
+})
 
 if len(generated_hypotheses.keys())==20:
     generated_hypotheses = json_to_text(generated_hypotheses)
@@ -453,6 +461,13 @@ if len(generated_hypotheses.keys())==20:
         avg_distance = compute_average_exploration_distance(exp_agent.param_history)
         print("Average Exploration Distance:", avg_distance)
         print("Experiment Result:", max(exp_agent.g_factor))
+        experiments_data.append({
+            "Hypothesis": refined_hypotheses,
+            "ParameterHistory": exp_agent.param_history[:],
+            "GFactorHistory": exp_agent.g_factor[:],
+            "BestGFactorSoFar": max(exp_agent.g_factor),
+            "AverageExplorationDistance": avg_distance
+        })
 
         feedback_prompt_for_refined_hypothesis = construct_feedback_prompt_for_refined_hypotheses(feedback_history[-1], chat_history[-1])
         print('===================>Constructing feedback prompt for refined hypotheses')
@@ -488,3 +503,6 @@ with open('accelmat_chat.json', 'w') as f:
     json.dump(chat_history, f)
 with open('accelmat_feedback.json', 'w') as f:
     json.dump(feedback_history, f)
+
+with open('accelmat_experiments.json', 'w') as f:
+    json.dump(experiments_data, f, indent=2)
