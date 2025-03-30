@@ -50,7 +50,7 @@ We set the research goal and constraints as the following:
 </div>
 <br>
 
-This figure illustrates the iterative refinement process where hypotheses and experimental conditions are systematically adjusted to optimize the nano helix's g-factor. It details 12 iterations, showing how changes to parameters—including helix radius, pitch, number of turns, fiber radius, and curl—are driven by underlying physicochemical principles such as structural stability, molecular alignment, and optical anisotropy. Each step records the principles behind the hypothesis, the changes of parameter values, and the achieved g-factor, highlighting key improvements and showcases PriM's ability to balance exploration and exploitation.
+This figure illustrates the iterative refinement process where hypotheses and experimental conditions are systematically adjusted to optimize the nanohelix's g-factor. 
 
 ## 🛠 Setup
 
