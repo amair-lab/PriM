@@ -1,0 +1,54 @@
+planner:
+  enabled: true
+  api_key: OpenAI_API_KEY
+  base_url: OpenAI_BASE_URL
+  model_name: gpt-4o
+
+agents:
+  user_proxy:
+    enabled: true
+    api_key: OpenAI_API_KEY
+    base_url: OpenAI_BASE_URL
+    model_name: gpt-4o
+  literature:
+    enabled: true
+    api_key: OpenAI_API_KEY
+    base_url: OpenAI_BASE_URL
+    model_name: gpt-4o
+    semantic_scholar_api: SemanticScholar_API_KEY
+  hypothesis:
+    enabled: true
+    api_key: OpenAI_API_KEY
+    base_url: OpenAI_BASE_URL
+    model_name: gpt-4o
+  experiment:
+    enabled: true
+    api_key: OpenAI_API_KEY
+    base_url: OpenAI_BASE_URL
+    model_name: gpt-4o
+  analysis:
+    enabled: true
+    api_key: OpenAI_API_KEY
+    base_url: OpenAI_BASE_URL
+    model_name: gpt-4o
+  optimization:
+    enabled: true
+
+parameter_space:
+  angle: [0.123160654, 1.009814211]
+  curl: [0.628318531, 8.078381109]
+  fiber_radius: [20, 60]
+  height: [43.32551229, 954.9296586]
+  helix_radius: [20, 90]
+  n_turns: [3, 10]
+  pitch: [60, 200]
+  total_fiber_length: [303.7757835, 1127.781297]
+  total_length: [300, 650]
+
+logging:
+  level: INFO
+  log_file: logs/prim.log
+
+file_paths:
+  chat_history: data/chat_history.json
+  notes: data/notes.json
