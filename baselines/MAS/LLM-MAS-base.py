@@ -233,8 +233,6 @@ def run_autonomous_workflow(agents: Dict[str, Any], note_taker: NoteTaker, histo
     param_space = {}
     param_history = []
 
-    experiments_data = []
-
     while True:
         analysis = history_manager.analyze_history()
         next_agent_name = analysis.get("next_agent")
@@ -244,10 +242,7 @@ def run_autonomous_workflow(agents: Dict[str, Any], note_taker: NoteTaker, histo
             print(f"Optimal parameter space discovered: {param_space}")
             logger.info("Workflow complete.")
 
-            with open("llm_mas_base_experiments.json", "w") as f:
-                json.dump(experiments_data, f, indent=2)
-            print("[INFO] Saved results to llm_mas_base_experiments.json")
-            
+            history_manager.record_message("System", "System", f"Avg exploring dist: {average_exploration_distance(param_history)}")            
             break
 
         agent = agents.get(next_agent_name)
@@ -309,20 +304,6 @@ def run_autonomous_workflow(agents: Dict[str, Any], note_taker: NoteTaker, histo
             note_taker.record("Research Experiment Report", report)
             history_manager.record_message(next_agent_name, "System", "Analysis completed")
             history_manager.record_message(next_agent_name, "System", f"Research Experiment Report: {report}")
-
-            avg_dist = average_exploration_distance(param_history)
-
-            # 2) Gather all info into one dict
-            experiment_record = {
-                "Hypothesis": note_taker.get_notes().get("hypothesis"),
-                "ParamHistorySoFar": param_history[:],
-                "LatestGFactors": current_g_factors,
-                "BestGFactorThisAnalysis": best_g_for_this_round if current_g_factors else None,
-                "AverageExplorationDistance": avg_dist,
-                "ResearchReport": report
-            }
-            experiments_data.append(experiment_record)
-
 
 @click.command()
 @click.argument('config_path', type=click.Path(exists=True))
