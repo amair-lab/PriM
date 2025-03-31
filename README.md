@@ -19,7 +19,7 @@
 
 *†: Equal Contribution*
 
-📄 [[PDF]](https://openreview.net/pdf?id=lhobZk76wX) | 💻 [[GitHub]](https://github.com/amair-lab/PriM)
+📄 [[PDF]](https://openreview.net/pdf?id=lhobZk76wX) | 💻 [[GitHub]](https://github.com/amair-lab/PriM) | 🌐 [[Homepage]](https://amair-lab.github.io/projects/PriM/)
 </div>
 
 <details>
