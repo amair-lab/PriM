@@ -19,6 +19,8 @@
 
 *†: Equal Contribution*
 
+In *ICLR 2025 Workshop on AI for Accelerated Materials Design*
+
 📄 [[arXiv]](https://arxiv.org/abs/2504.08810) | 💻 [[GitHub]](https://github.com/amair-lab/PriM) | 🌐 [[Homepage]](https://amair-lab.github.io/projects/PriM/)
 </div>
 
@@ -77,12 +79,10 @@ python inference.py config.yml
 
 ## 📚 Citation
 ```bibtex
-@inproceedings{pu2025prim,
-  title = {PriM: Principle-Inspired Material Discovery through Multi-Agent Collaboration},
-  author = {Zheyuan Lai and Yingming Pu},
-  booktitle = {ICLR 2025 Workshop on AI for Accelerated Materials Design},
-  year = {2025},
-  month = mar,
-  url = {https://openreview.net/pdf?id=lhobZk76wX},
+@article{lai2025prim,
+  title={PriM: Principle-Inspired Material Discovery through Multi-Agent Collaboration},
+  author={Lai, Zheyuan and Pu, Yingming},
+  journal={arXiv preprint arXiv:2504.08810},
+  year={2025}
 }
 ```
